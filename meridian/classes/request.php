@@ -33,6 +33,13 @@ class Request
 		
 		self::$request = trim(self::_getUri(), '/');
 		self::$segments = explode('/', self::$request);
+		self::$query = $_SERVER['QUERY_STRING'];
+		self::$root = '/'.trim(str_replace(array(self::$request, '?'.$_SERVER['QUERY_STRING'], '?'), '', $_SERVER['REQUEST_URI']), '/').'/';
+	}
+	
+	public static function seg($num)
+	{
+		return self::$segments[$num];
 	}
 	
 	private static function _getUri()

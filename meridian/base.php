@@ -18,6 +18,7 @@
  * along with Meridian. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once COREPATH.'common.php';
 require_once COREPATH.'classes/controller.php';
 require_once COREPATH.'classes/output.php';
 require_once COREPATH.'classes/view.php';
