@@ -41,6 +41,8 @@ class Load
 	
 	public static function model($name)
 	{
+		if(!class_exists('Model')) require_once COREPATH.'classes/model.php';
+		
 		if(in_array($name, self::$models)) return self::$models[$name];
 		
 		if(file_exists(APPPATH.'models/'.strtolower($name).'.php'))
