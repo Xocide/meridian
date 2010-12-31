@@ -24,13 +24,14 @@ require_once COREPATH.'classes/output.php';
 require_once COREPATH.'classes/view.php';
 require_once COREPATH.'classes/request.php';
 require_once COREPATH.'classes/router.php';
-//require_once COREPATH.'classes/loader.php';
-//require_once COREPATH.'classes/database.php';
+require_once COREPATH.'classes/load.php';
+require_once COREPATH.'classes/database.php';
 
 class Meridian
 {
 	private static $version = '0.1';
 	private static $app;
+	public static $db;
 	
 	/**
 	 * Loads the necessary files and checks for any errors.
@@ -39,6 +40,7 @@ class Meridian
 	{
 		// Load the config files...
 		require_once APPPATH.'config/routes.php';
+		if(file_exists(APPPATH.'config/database.php')) require_once APPPATH.'config/database.php';
 		
 		Request::process();
 		
@@ -65,6 +67,8 @@ class Meridian
 	 */
 	public static function run()
 	{
+		self::$db = Database::init();
+		
 		$class = Router::$controller.'Controller';
 		self::$app = new $class;
 		call_user_func_array(array(self::$app, Router::$method), array_slice(Request::$segments, 2));
@@ -76,11 +80,32 @@ class Meridian
 	/**
 	 * Displays an error message.
 	 * @param string $title
-	 * @param message $message
+	 * @param string $message
 	 */
 	public static function error($title, $message)
 	{
-		die("<h1>{$title}</h1><p>{$message}</p>");
+		@ob_end_clean();
+		echo "<!DOCTYPE html>".PHP_EOL;
+		echo "<html>".PHP_EOL;
+		echo "	<head>".PHP_EOL;
+		echo "		<title>{$title}</title>".PHP_EOL;
+		echo "		<style type=\"text/css\">".PHP_EOL;
+		echo "			body { font-size: 14px; font-family: Verdana, sans-serif; margin: 0; padding: 0; background: #ccc; }".PHP_EOL;
+		echo "			header { background: #990000; color: #fff; display: block; padding: 5px; }".PHP_EOL;
+		echo "			h1 { margin: 0; }".PHP_EOL;
+		echo "			section { display: block; padding: 10px; background: #fff; }".PHP_EOL;
+		echo "		</style>".PHP_EOL;
+		echo "	</head>".PHP_EOL;
+		echo "	<body>".PHP_EOL;
+		echo "		<header>".PHP_EOL;
+		echo "			<h1>{$title}</h1>".PHP_EOL;
+		echo "		</header>".PHP_EOL;
+		echo "		<section>".PHP_EOL;
+		echo "			{$message}".PHP_EOL;
+		echo "		</section>".PHP_EOL;
+		echo "	</body>".PHP_EOL;
+		echo "</html>".PHP_EOL;
+		exit;
 	}
 	
 	/**

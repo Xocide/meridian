@@ -18,19 +18,18 @@
  * along with Meridian. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Controller
+class Database
 {
-	private static $_instance;
-	public $_view = null;
-	public $_layout = 'default';
+	public static $config;
 	
-	public function __construct()
+	public static function init()
 	{
-		$this->db = Meridian::$db;
-	}
-	
-	public static function getInstance()
-	{
-		return self::$_instance;
+		if(!is_array(self::$config)) return false;
+		
+		$driver = self::$config['driver'];
+		require COREPATH.'database/'.strtolower($driver).'/'.strtolower($driver).'.php';
+		
+		$name = 'DB_'.$driver;
+		return new $name(self::$config);
 	}
 }

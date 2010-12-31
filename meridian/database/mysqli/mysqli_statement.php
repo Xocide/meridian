@@ -18,19 +18,30 @@
  * along with Meridian. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Controller
+class MySQLi_Statement
 {
-	private static $_instance;
-	public $_view = null;
-	public $_layout = 'default';
-	
-	public function __construct()
+	public function __construct($result)
 	{
-		$this->db = Meridian::$db;
+		$this->result = $result;
 	}
 	
-	public static function getInstance()
+	public function fetchArray()
 	{
-		return self::$_instance;
+		return mysqli_fetch_array($this->result);
+	}
+	
+	public function fetchAll()
+	{
+		$rows = array();
+		while($row = $this->fetchArray())
+		{
+			$rows[] = $row;
+		}
+		return $rows;
+	}
+	
+	public function numRows()
+	{
+		return mysqli_num_rows($this->result);
 	}
 }
