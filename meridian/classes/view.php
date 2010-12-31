@@ -36,15 +36,15 @@ class View
 		
 		ob_start();
 		include(APPPATH.'views/'.$file.'.php');
-		//if(ob_get_level() > self::$ob_level + 1)
-		//{
-		//	ob_end_flush();
-		//}
-		//else
-		//{
+		if(ob_get_level() > self::$ob_level + 1)
+		{
+			ob_end_flush();
+		}
+		else
+		{
 			Output::append(ob_get_contents());
 			@ob_end_clean();
-		//}
+		}
 	}
 	
 	public static function set($var, $val)
