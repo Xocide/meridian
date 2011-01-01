@@ -54,12 +54,18 @@ class Meridian
 		else
 		{
 			Router::$controller = 'Error';
-			require_once APPPATH.'controllers/error_controller.php';
+			Router::$method = 'notFound';
 		}
 		
 		// Check if the method exists
 		if(!method_exists(Router::$controller.'Controller', Router::$method))
+		{
+			Router::$controller = 'Error';
 			Router::$method = 'notFound';
+		}
+		
+		if(Router::$controller == 'Error')
+			require_once APPPATH.'controllers/error_controller.php';
 	}
 	
 	/**
