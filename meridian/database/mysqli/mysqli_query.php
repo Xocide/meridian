@@ -23,7 +23,7 @@ class MySQLi_Query
 	private $type;
 	private $table;
 	private $cols;
-	private $where = array();
+	private $where;
 	private $limit;
 	private $orderby;
 	private $sql;
@@ -37,7 +37,7 @@ class MySQLi_Query
 	
 	public function distinct()
 	{
-		$this->type = 'SELECT DISTICT';
+		$this->type = $this->type.' DISTINCT';
 		return $this;
 	}
 	
@@ -47,15 +47,21 @@ class MySQLi_Query
 		return $this;
 	}
 	
-	public function orderby($col, $direction)
+	public function groupby($cols)
 	{
-		if(!empty($col)) $this->orderby = ' ORDER BY '.$col.' '.$direction;
+		$this->groupby = $cols;
 		return $this;
 	}
 	
 	public function where($where)
 	{
 		$this->where = $where;
+		return $this;
+	}
+	
+	public function orderby($col, $direction)
+	{
+		if(!empty($col)) $this->orderby = ' ORDER BY '.$col.' '.$direction;
 		return $this;
 	}
 	
@@ -67,22 +73,44 @@ class MySQLi_Query
 	
 	private function _assemble()
 	{
+		// Type
 		$sql = $this->type.' ';
-		$sql .= implode(',',$this->cols).' ';
-		$sql .= 'FROM '.$this->table.' ';
 		
+		// Columns
+		$cols = array();
+		foreach($this->cols as $col => $as)
+		{
+			if($col)
+				$cols[] = " $col AS {$as}";
+			else
+				$cols[] = " {$as}";
+		}
+		$sql .= implode(', ', $cols);
+		
+		// From
+		$sql .= ' FROM '.$this->table;
+		
+		// Group by
+		if($this->groupby != null)
+		{
+			$sql .= " GROUP BY ".implode(', ', $this->groupby);
+		}
+		
+		// Where
 		if($this->where != null)
 		{
 			$_where = array();
 			foreach($this->where as $col => $val)
 				$_where[] = "`".$this->table."`.`".$col."`='".$val."'";
 			
-			$sql .= 'WHERE '.implode(' AND ', $_where);
+			$sql .= ' WHERE '.implode(' AND ', $_where);
 		}
 		
+		// Order by
 		if($this->orderby != null)
 			$sql .= $this->orderby;
 		
+		// Limit
 		if($this->limit != null)
 			$sql .= $this->limit;
 		
