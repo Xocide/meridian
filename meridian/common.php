@@ -27,3 +27,8 @@ function aselect($index, array $array)
 {
 	return $array[$index];
 }
+
+function fbLikeBtn($url, $layout = 'button_count', $color = 'light')
+{
+	return '<iframe src="http://www.facebook.com/plugins/like.php?href='.urlencode($url).'&amp;layout='.$layout.'&amp;show_faces=false&amp;width=90&amp;action=like&amp;font=arial&amp;colorscheme='.$color.'&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe>';
+}

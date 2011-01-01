@@ -60,6 +60,11 @@ class DB_MySQLi
 		return new MySQLi_Statement($result);
 	}
 	
+	public function res($string)
+	{
+		return mysqli_real_escape_string($this->link, $string);
+	}
+	
 	public static function getInstance()
 	{
 		return self::$_instance;

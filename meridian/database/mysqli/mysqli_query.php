@@ -21,12 +21,12 @@
 class MySQLi_Query
 {
 	private $type;
-	private $table;
 	private $cols;
+	private $table;
+	private $groupby;
 	private $where;
 	private $limit;
 	private $orderby;
-	private $sql;
 	
 	public function __construct($type, array $cols)
 	{

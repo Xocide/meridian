@@ -26,19 +26,13 @@ class Model
 	{
 	}
 	
-	public function fetch($where)
-	{
-		$row = $this->find($where);
-		return $row[0];
-	}
-	
 	public function fetchAll(array $args = array())
 	{
 		return $this->db->query($this->db->select()->from($this->_table)->orderby(@$args['orderby'][0], @$args['orderby'][1]))->fetchAll();
 	}
 	
-	public function find($where)
+	public function find(array $args)
 	{
-		return $this->db->query($this->db->select()->from($this->_table)->where($where))->fetchAll();
+		return $this->db->query($this->db->select()->from($this->_table)->where(@$args['where'])->orderby(@$args['orderby'][0], @$args['orderby'][1]))->fetchArray();
 	}
 }
