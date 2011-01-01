@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -26,9 +26,15 @@ class Model
 	{
 	}
 	
-	public function fetchAll()
+	public function fetch($where)
 	{
-		return $this->db->query($this->db->select()->from($this->_table))->fetchAll();
+		$row = $this->find($where);
+		return $row[0];
+	}
+	
+	public function fetchAll(array $args = array())
+	{
+		return $this->db->query($this->db->select()->from($this->_table)->orderby(@$args['orderby'][0], @$args['orderby'][1]))->fetchAll();
 	}
 	
 	public function find($where)

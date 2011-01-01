@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -35,6 +35,12 @@ class MySQLi_Query
 		return $this;
 	}
 	
+	public function distinct()
+	{
+		$this->type = 'SELECT DISTICT';
+		return $this;
+	}
+	
 	public function from($table)
 	{
 		$this->table = $table;
@@ -43,7 +49,7 @@ class MySQLi_Query
 	
 	public function orderby($col, $direction)
 	{
-		$this->orderby = ' ORDER BY '.$col.' '.$direction;
+		if(!empty($col)) $this->orderby = ' ORDER BY '.$col.' '.$direction;
 		return $this;
 	}
 	
@@ -71,7 +77,7 @@ class MySQLi_Query
 			foreach($this->where as $col => $val)
 				$_where[] = "`".$this->table."`.`".$col."`='".$val."'";
 			
-			$sql .= 'WHERE '.implode(', ', $_where);
+			$sql .= 'WHERE '.implode(' AND ', $_where);
 		}
 		
 		if($this->orderby != null)

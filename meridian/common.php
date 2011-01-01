@@ -22,3 +22,8 @@ function baseurl()
 {
 	return Request::$root.(func_num_args() ? implode('/', func_get_args()).'/' : '');
 }
+
+function aselect($index, array $array)
+{
+	return $array[$index];
+}

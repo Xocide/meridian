@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2010 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -55,6 +55,7 @@ class DB_MySQLi
 	
 	public function query($query)
 	{
+		$this->last_query = $query;
 		$result = mysqli_query($this->link, (string) $query) or $this->halt();
 		return new MySQLi_Statement($result);
 	}
@@ -71,6 +72,6 @@ class DB_MySQLi
 	
 	public function halt()
 	{
-		Meridian::error('Database Error', mysqli_error($this->link));
+		Meridian::error('Database Error', mysqli_error($this->link).'<blockquote>'.$this->last_query.'</blockquote>');
 	}
 }
