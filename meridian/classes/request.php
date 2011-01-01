@@ -55,6 +55,10 @@ class Request
 		if (trim($path, '/') != '' && $path != "/".self::$file)
 			return $path;
 		
+		// Check for ?uri=x/y/z
+		if(isset($_REQUEST['url']))
+			return $_REQUEST['url'];
+		
 		// Check the _GET variable
 		if (is_array($_GET) && count($_GET) == 1 && trim(key($_GET), '/') != '')
 			return key($_GET);
