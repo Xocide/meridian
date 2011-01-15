@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -81,6 +81,11 @@ class Meridian
 		
 		View::render((self::$app->_view === null ? Router::$controller.'/'.Router::$method : self::$app->_view));
 		Output::display(self::$app->_layout);
+	}
+	
+	public static function app()
+	{
+		return self::$app;
 	}
 	
 	/**

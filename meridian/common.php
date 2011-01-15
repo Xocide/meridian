@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -20,7 +20,7 @@
 
 function baseurl()
 {
-	return Request::$root.(func_num_args() ? implode('/', func_get_args()).'/' : '');
+	return dirname($_SERVER['SCRIPT_NAME']).'/'.(func_num_args() ? implode('/', func_get_args()).'/' : '');
 }
 
 function aselect($index, array $array)

@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -35,7 +35,7 @@ class Load
 		else
 			Meridian::error('Loader Error','Unable to load helper: '.$file);
 		
-		self::$helpers[$file] = true;
+		self::$helpers[] = $file;
 		return true;
 	}
 	
