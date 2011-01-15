@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010-2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -24,9 +24,12 @@ require 'mysqli_statement.php';
 class DB_MySQLi
 {
 	private static $_instance;
+	public $prefix;
+	
 	public function __construct(array $config)
 	{
 		self::$_instance = $this;
+		$this->prefix = $config['prefix'];
 		$this->connect($config['host'], $config['user'], $config['pass'])->selectDb($config['dbname']);
 		return $this;
 	}

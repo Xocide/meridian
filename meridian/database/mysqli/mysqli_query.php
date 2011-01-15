@@ -32,6 +32,7 @@ class MySQLi_Query
 	{
 		$this->type = $type;
 		$this->cols = $cols;
+		$this->prefix = DB_MySQLi::getInstance()->prefix;
 		return $this;
 	}
 	
@@ -81,14 +82,14 @@ class MySQLi_Query
 		foreach($this->cols as $col => $as)
 		{
 			if($col)
-				$cols[] = " $col AS {$as}";
+				$cols[] = " {$col} AS {$as}";
 			else
 				$cols[] = " {$as}";
 		}
 		$sql .= implode(', ', $cols);
 		
 		// From
-		$sql .= ' FROM '.$this->table;
+		$sql .= ' FROM '.$this->prefix.$this->table;
 		
 		// Group by
 		if($this->groupby != null)
@@ -101,7 +102,7 @@ class MySQLi_Query
 		{
 			$_where = array();
 			foreach($this->where as $col => $val)
-				$_where[] = "`".$this->table."`.`".$col."`='".$val."'";
+				$_where[] = "`".$this->prefix.$this->table."`.`".$col."`='".$val."'";
 			
 			$sql .= ' WHERE '.implode(' AND ', $_where);
 		}
@@ -115,6 +116,11 @@ class MySQLi_Query
 			$sql .= $this->limit;
 		
 		return $sql;
+	}
+	
+	public function exec()
+	{
+		return DB_MySQLi::getInstance()->query($this->_assemble());
 	}
 	
 	public function __toString()
