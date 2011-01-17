@@ -1,7 +1,7 @@
 <?php
 /**
  * Meridian
- * Copyright (C) 2010 Jack Polgar
+ * Copyright (C) 2010-2011 Jack Polgar
  * 
  * This file is part of Meridian.
  * 
@@ -21,6 +21,7 @@
 class View
 {
 	private static $ob_level;
+	private static $theme;
 	private static $vars = array();
 	
 	public static function render($file)
@@ -31,7 +32,7 @@ class View
 			$$_var = $_val;
 		
 		$file = strtolower($file);
-		if(!file_exists(APPPATH.'views/'.$file.'.php'))
+		if(!file_exists(APPPATH.'views/'.(self::$theme != null ? self::$theme.'/' : '').$file.'.php'))
 			Meridian::error('View Error', 'Unable to load view: '.$file);
 		
 		ob_start();

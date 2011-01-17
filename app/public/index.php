@@ -1,3 +1,0 @@
-<?php
-// Get Meridian...
-require_once '../../index.php';

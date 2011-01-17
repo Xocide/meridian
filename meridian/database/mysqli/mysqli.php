@@ -29,7 +29,7 @@ class DB_MySQLi
 	public function __construct(array $config)
 	{
 		self::$_instance = $this;
-		$this->prefix = $config['prefix'];
+		$this->prefix = @$config['prefix'];
 		$this->connect($config['host'], $config['user'], $config['pass'])->selectDb($config['dbname']);
 		return $this;
 	}
