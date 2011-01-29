@@ -44,8 +44,8 @@ class HTML
 	 * @param string $label The label.
 	 * @param array $options Options for the URL code (class, title, etc).
 	 */
-	public static function link($url, $label, array $options=array())
+	public static function link($url, $label, array $args=array())
 	{
-		return '<a href="'.$url.'">'.$label.'</a>';
+		return '<a href="'.$url.'"'.(isset($args['class']) ? ' class="'.$args['class'].'"' :'').'>'.$label.'</a>';
 	}
 }
