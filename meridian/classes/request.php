@@ -42,6 +42,11 @@ class Request
 		return self::$segments[$num];
 	}
 	
+	public static function matches($uri)
+	{
+		return (trim($uri,'/') == trim(implode('/',self::$segments),'/') ? true : false);
+	}
+	
 	private static function _getUri()
 	{
 		// Check if there is a PATH_INFO variable
