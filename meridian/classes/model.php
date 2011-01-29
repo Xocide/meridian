@@ -28,7 +28,7 @@ class Model
 	
 	public function fetchAll(array $args = array())
 	{
-		return $this->db->query($this->db->select()->from($this->_table)->orderby(@$args['orderby'][0], @$args['orderby'][1]))->fetchAll();
+		return $this->db->select()->from($this->_table)->orderby(@$args['orderby'][0], @$args['orderby'][1])->exec()->fetchAll();
 	}
 	
 	public function find(array $args)
