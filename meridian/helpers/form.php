@@ -53,11 +53,11 @@ class Form
 	
 	public static function select($name,$values,$args=array())
 	{
-		$select = '<select name="'.$name.'">';
+		$select = '<select name="'.$name.'"'.(isset($args['id']) ? ' id="'.$args['id'].'"' :'').'>';
 		
 		foreach($values as $value)
 		{
-			$select .= '<option value="'.$value['value'].'">'.$value['text'].'</option>';
+			$select .= '<option value="'.$value['value'].'"'.(@$args['value'] == $value['value'] ? ' selected="selected"' :'').'>'.$value['text'].'</option>';
 		}
 		
 		$select .= '</select>';
@@ -78,11 +78,11 @@ class Form
 		or $type == 'password'
 		or $type == 'hidden')
 		{
-			return '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" class="'.$type.'" />';
+			return '<input type="'.$type.'" name="'.$name.'" value="'.$value.'"'.(isset($args['id']) ? ' id="'.$args['id'].'"' :'').' class="'.$type.'" />';
 		}
 		elseif($type == 'textarea')
 		{
-			return '<textarea name="'.$name.'">'.$value.'</textarea>';
+			return '<textarea name="'.$name.'"'.(isset($args['id']) ? ' id="'.$args['id'].'"' :'').(isset($args['class']) ? ' class="'.$args['class'].'"' :'').(isset($args['cols']) ? ' cols="'.$args['cols'].'"' :'').(isset($args['rows']) ? ' rows="'.$args['rows'].'"' :'').'>'.$value.'</textarea>';
 		}
 		elseif($type == 'submit')
 		{
