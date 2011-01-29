@@ -24,7 +24,7 @@ class View
 	private static $theme;
 	private static $vars = array();
 	
-	public static function render($file)
+	public static function render($file, $return = false)
 	{
 		if(self::$ob_level === null) self::$ob_level = ob_get_level();
 		
@@ -39,7 +39,16 @@ class View
 		include(APPPATH.'views/'.$file.'.php');
 		if(ob_get_level() > self::$ob_level + 1)
 		{
-			ob_end_flush();
+			if($return)
+			{
+				$content = ob_get_contents();
+				ob_end_clean();
+				return $content;
+			}
+			else
+			{
+				ob_end_flush();
+			}
 		}
 		else
 		{
@@ -51,6 +60,11 @@ class View
 	public static function set($var, $val)
 	{
 		self::$vars[$var] = $val;
+	}
+	
+	public static function theme()
+	{
+		return self::$theme;
 	}
 	
 	public static function vars()
