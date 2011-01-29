@@ -56,6 +56,11 @@ class DB_MySQLi
 		return new MySQLi_Query("DELETE", array());
 	}
 	
+	public function insert(array $data)
+	{
+		return new MySQLi_Query("INSERT INTO", $data);
+	}
+	
 	public function query($query)
 	{
 		$this->last_query = $query;
